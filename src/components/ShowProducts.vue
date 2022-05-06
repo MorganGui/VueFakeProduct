@@ -1,20 +1,10 @@
 <template>
   <div class="container">
-    <div class="cateories">
-      <p class="title">ALL PRODUCTS :</p>
-      <div class="products">
-        <div v-for="p in products" :key="p.id">
-          <OneProduct v-bind:product="p"/>
-        </div>
-      </div>
+    <div class="categories" @click="selectCategory(0)">
+      <div class="title">ALL PRODUCTS</div>
     </div>
-    <div class="cateories" v-for="(c, index) in categories" :key="index">
-      <p class="title">{{ c.toUpperCase() }} :</p>
-      <div class="products">
-        <div v-for="p in products" :key="p.id">
-          <OneProduct v-if="c == p.category" v-bind:product="p"/>
-        </div>
-      </div>
+    <div class="categories" v-for="(c, index) in categories" :key="index" @click="selectCategory(index+1)">
+      <div class="title">{{ c.toUpperCase() }}</div>
     </div>
   </div>
 </template>
@@ -22,12 +12,10 @@
 <script lang="ts">
 import { ProductService } from '@/services/ProductService'
 import { Product } from '@/models/Product'
-import OneProduct from '@/components/OneProduct.vue'
 
 export default {
   name: 'ShowProducts',
   components: {
-    OneProduct
   },
   async setup () {
     const products: Product[] = await ProductService.getProducts()
@@ -41,26 +29,75 @@ export default {
       products,
       categories
     }
+  },
+  methods: {
+    selectCategory: function (i: number) {
+      Array.from(document.getElementsByClassName('categories')).forEach((div: any) => {
+        div.animate([
+          {},
+          { margin: '-87.5px' }
+        ], {
+          duration: 250,
+          fill: 'forwards'
+        })
+      })
+      document.getElementsByClassName('categories')[i].animate([
+        {},
+        { zIndex: 1, position: 'fixed', cursor: 'defaut' }
+      ], {
+        delay: 250,
+        duration: 0,
+        fill: 'forwards'
+      })
+      document.getElementsByClassName('categories')[i].animate([
+        {},
+        { width: '100vw', height: '100vh', borderRadius: '0' }
+      ], {
+        delay: 250,
+        duration: 250,
+        fill: 'forwards'
+      })
+      document.getElementsByClassName('title')[i].animate([
+        {},
+        { margin: '-45% 0 0 0', fontSize: '30px' }
+      ], {
+        delay: 250,
+        duration: 250,
+        fill: 'forwards'
+      })
+    }
   }
 }
 </script>
 
 <style lang="sass" scoped>
 .container
-  width: 100%
-  height: 100%
-  box-sizing: border-box
-  padding: 5vh 0
-  overflow: auto
-.cateories
-  margin: 15px 0
-  .title
-    margin: 0 0 0 25px
-    font-size: 25px
-    font-weight: 700
-
-  .products
+  display: flex
+  flex-wrap: wrap
+  justify-content: center
+  align-items: center
+  gap: 25px
+  .categories
+    border-radius: 50%
+    background: #ffff
+    aspect-ratio: 1 / 1
+    width: 150px
     display: flex
-
-    overflow: auto
+    justify-content: center
+    align-items: center
+    padding: 15px
+    box-sizing: border-box
+    transition: 250ms
+    user-select: none
+    cursor: pointer
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 35px inset
+    overflow: hidden
+    .title
+      text-align: center
+      font-size: 18px
+      font-weight: 600
+    // &:hover
+    //   transform: scale(1.3)
+    //   margin: 10px
+    //   box-shadow: rgba(0, 0, 0, 0.25) 0px 0px 0px inset
 </style>
