@@ -8,7 +8,7 @@ export class ProductService {
     const products: Product[] = []
 
     // stockage des données
-    json.forEach((p:any, index: number) => {
+    json.forEach((p:any) => {
       products.push(new Product(
         p.id,
         p.title,

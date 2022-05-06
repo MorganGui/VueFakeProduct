@@ -6,13 +6,14 @@
 ```
 node -v
 ```
-#### Install vue.
+#### Install vue and his CLI.
 ```
 npm i vue
-```
-#### Install vue CLI.
-```
 npm i -g @vue/cli
+```
+#### install sass.
+```
+npm install node-sass sass-loader --save-dev
 ```
 #### Create the projet.
 ```
@@ -20,5 +21,6 @@ vue create [project-name]
 ```
 ## Compile the project.
 ```
+cd [project-name]
 npm run serve
 ```
