@@ -17,7 +17,7 @@ import { Product } from '@/models/Product'
 import OneProduct from '@/components/OneProduct.vue'
 
 export default {
-  name: 'ShowProductsV1',
+  name: 'ShowProducts',
   components: {
     OneProduct
   },
@@ -44,7 +44,6 @@ export default {
   &::-webkit-scrollbar
     display: none
   .title
-    user-select: none
     font-size: 25px
     font-weight: 700
 

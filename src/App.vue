@@ -1,19 +1,19 @@
 <template>
   <div class="page">
     <Suspense>
-      <ShowProductsV1 />
+      <ShowProducts />
     </Suspense>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import ShowProductsV1 from './components/ShowProductsV1.vue'
+import ShowProducts from './components/ShowProducts.vue'
 
 export default defineComponent({
   name: 'App',
   components: {
-    ShowProductsV1
+    ShowProducts
   }
 })
 </script>
@@ -41,6 +41,8 @@ body::-webkit-scrollbar {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 2vh 5vw;
+  padding: 8vh 5vw;
+  padding-top: 2vh;
+  box-sizing: border-box;
 }
 </style>
