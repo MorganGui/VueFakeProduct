@@ -19,13 +19,26 @@ export default defineComponent({
 </script>
 
 <style>
+* {
+  -webkit-tap-highlight-color: rgba(0,0,0,0);
+}
 body {
   margin: 0;
-  overflow-x: hidden;
+  overflow-x: auto;
   overflow-y: auto;
 }
 body::-webkit-scrollbar {
-  display: none;
+  width: 12px;
+}
+::-webkit-scrollbar-track {
+  background: #080A12;
+}
+body::-webkit-scrollbar-thumb {
+  background-color: #2C3041;
+  border-radius: 12px;
+}
+body::-webkit-scrollbar-thumb:hover {
+  background-color: #3C4051;
 }
 .page {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -33,16 +46,16 @@ body::-webkit-scrollbar {
   -moz-osx-font-smoothing: grayscale;
   color: #fff;
   /* background: radial-gradient(#080A12, #2C3041); */
-  background: radial-gradient(#2C3041, #080A12);
+  background: linear-gradient(90deg, #080A12, #2C3041, #080A12);
 
-  min-width: 100vw;
-  min-height: 100vh;
+  width: 100%;
+  min-height: 100%;
 
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 8vh 5vw;
-  padding-top: 2vh;
+  padding: 8% 5%;
+  padding-top: 2%;
   box-sizing: border-box;
 }
 </style>

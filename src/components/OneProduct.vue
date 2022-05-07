@@ -2,7 +2,7 @@
   <span :data-descr="product.description">
     <div class="product" v-bind:style="{ backgroundImage: 'url(' + product.image + ')' }">
       <div class="filter">
-        <div class="title">{{ product.title }}</div>
+        <div class="title">{{ filter(product.title, 45) }}</div>
         <div class="rate">
           <div class="stars">
             <svg v-for="index in fullStar" :key="index" class="fullStar" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path d="M381.2 150.3L524.9 171.5C536.8 173.2 546.8 181.6 550.6 193.1C554.4 204.7 551.3 217.3 542.7 225.9L438.5 328.1L463.1 474.7C465.1 486.7 460.2 498.9 450.2 506C440.3 513.1 427.2 514 416.5 508.3L288.1 439.8L159.8 508.3C149 514 135.9 513.1 126 506C116.1 498.9 111.1 486.7 113.2 474.7L137.8 328.1L33.58 225.9C24.97 217.3 21.91 204.7 25.69 193.1C29.46 181.6 39.43 173.2 51.42 171.5L195 150.3L259.4 17.97C264.7 6.954 275.9-.0391 288.1-.0391C300.4-.0391 311.6 6.954 316.9 17.97L381.2 150.3z"/></svg>
@@ -28,6 +28,7 @@ export default {
       type: Product
     }
   },
+  /** Calcul des nombres d'étoiles pleine, vide et à moitié pleine */
   setup (props:any) {
     function getRate () {
       return props.product.rating.rate
@@ -37,14 +38,19 @@ export default {
     let halfStar = 0
     if (fullStar + emptyStar !== 5) halfStar = 1
 
-    console.log(props.product.rating.rate)
-    console.log('full star : ' + fullStar)
-    console.log('empty star : ' + emptyStar)
-    console.log('half star : ' + halfStar)
     return {
       fullStar,
       halfStar,
       emptyStar
+    }
+  },
+  methods: {
+    filter (text: string, length: number) {
+      const node = document.createElement('div')
+      node.innerHTML = text
+      const content = node.textContent
+      if (content && window.innerWidth < 900) return content.length > length ? content.slice(0, length) + '...' : content
+      else return text
     }
   }
 }
@@ -53,38 +59,33 @@ export default {
 
 <style lang="sass" scoped>
 .product
-  width: 250px
-  aspect-ratio: 1 / 1
+  width: 200px
+  height: 200px
+  max-width: 45vw
+  max-height: 45vw
   margin: 5px 20px
 
   background-color: #fff
   background-size: contain
   background-repeat: no-repeat
   background-position: center center
-  box-shadow: #000a 0px 26px 30px -10px, #000c 0px 16px 10px -10px
+  box-shadow: #000a 0 10px 25px -10px, #000c 0 10px 10px -10px
 
   transition: 500ms
   border-radius: 15px
   cursor: pointer
+  user-select: none
   &:hover
     transform: scale(1.1)
-    box-shadow: #000a 0 25px 50px 15px, #000c 0px 16px 10px -10px
-    &::before, .filter
+    box-shadow: #000a 0 10px 40px 15px, #000c 0 10px 10px -10px
+    .filter
       opacity: 1
-  &::before
-    content: ''
-    position: absolute
-    width: 250px
-    aspect-ratio: 1 / 1
-    border-radius: 15px
-    border: solid 5px #fff
-    box-sizing: border-box
-    z-index: 1
-    transition: 500ms
-    opacity: 0
+  /** Le filtre permet de grisé un produit pour affiché son nom et son évaluation */
   .filter
-    width: 100%
-    aspect-ratio: 1 / 1
+    width: 200px
+    height: 200px
+    max-width: 45vw
+    max-height: 45vw
     background: #000a
     transition: 500ms
     opacity: 0
@@ -96,8 +97,10 @@ export default {
     padding: 15px
     box-sizing: border-box
     border-radius: 15px
+    border: solid 5px #fff
     .title
-      font-size: 20px
+      font-size: 15px
+      font-weight: 550
       text-align: center
     .rate
       display: flex
@@ -105,22 +108,13 @@ export default {
       justify-content: center
       align-items: center
       .stars
-        width: 200px
-        height: 25px
         text-align: center
         *
           fill: #FFD700
           width: 25px
+          max-width: 4vw
+@media (max-width: 900px)
+  .product
+    &:hover
+      transform: unset
 </style>
-
-  function getProduct(props: any, any: any) {
-    throw new Error('Function not implemented.')
-  }
-
-  function getProduct(props: any, any: any) {
-    throw new Error('Function not implemented.')
-  }
-
-function setup(props: any, any: any) {
-  throw new Error('Function not implemented.')
-}
