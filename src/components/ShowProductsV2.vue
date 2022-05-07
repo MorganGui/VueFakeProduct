@@ -5,6 +5,8 @@
     </div>
     <div class="categories" v-for="(c, index) in categories" :key="index" @click="selectCategory(index+1)">
       <div class="title">{{ c.toUpperCase() }}</div>
+      <div class="selectedpage">
+      </div>
     </div>
   </div>
 </template>
@@ -14,7 +16,7 @@ import { ProductService } from '@/services/ProductService'
 import { Product } from '@/models/Product'
 
 export default {
-  name: 'ShowProducts',
+  name: 'ShowProductsV2',
   components: {
   },
   async setup () {
@@ -32,6 +34,7 @@ export default {
   },
   methods: {
     selectCategory: function (i: number) {
+      // avant ouverture
       Array.from(document.getElementsByClassName('categories')).forEach((div: any) => {
         div.animate([
           {},
@@ -41,9 +44,10 @@ export default {
           fill: 'forwards'
         })
       })
+      // propriété sans transition
       document.getElementsByClassName('categories')[i].animate([
         {},
-        { zIndex: 1, position: 'fixed', cursor: 'defaut' }
+        { zIndex: 1, position: 'fixed', cursor: 'default' }
       ], {
         delay: 250,
         duration: 0,

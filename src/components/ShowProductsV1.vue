@@ -1,13 +1,5 @@
 <template>
   <div class="container">
-    <div class="cateories">
-      <p class="title">ALL PRODUCTS :</p>
-      <div class="products">
-        <div v-for="p in products" :key="p.id">
-          <OneProduct v-bind:product="p"/>
-        </div>
-      </div>
-    </div>
     <div class="cateories" v-for="(c, index) in categories" :key="index">
       <p class="title">{{ c.toUpperCase() }} :</p>
       <div class="products">
@@ -48,19 +40,14 @@ export default {
 <style lang="sass" scoped>
 .container
   width: 100%
-  height: 100%
-  box-sizing: border-box
-  padding: 5vh 0
-  overflow: auto
 .cateories
-  margin: 15px 0
+  &::-webkit-scrollbar
+    display: none
   .title
-    margin: 0 0 0 25px
+    user-select: none
     font-size: 25px
     font-weight: 700
 
   .products
     display: flex
-
-    overflow: auto
 </style>
