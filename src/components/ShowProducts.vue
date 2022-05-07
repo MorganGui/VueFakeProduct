@@ -1,7 +1,7 @@
 <template>
   <div class="container">
-    <div class="cateories">
-      <p class="title">top rated :</p>
+    <div class="categories">
+      <div class="title">TOP <input type="number" v-model="nbShow" v-on:change="onNbShowChange($event)"> RATINGS :</div>
       <div class="products">
         <div v-for="p in bestProducts" :key="p.id">
           <OneProduct v-bind:product="p"/>
@@ -10,8 +10,8 @@
       </div>
     </div>
 
-    <div class="cateories" v-for="(c, index) in categories" :key="index">
-      <p class="title">{{ c.toUpperCase() }} :</p>
+    <div class="categories" v-for="(c, index) in categories" :key="index">
+      <div class="title">{{ c.toUpperCase() }} :</div>
       <div class="products">
         <div v-for="p in products" :key="p.id">
           <OneProduct v-if="c == p.category" v-bind:product="p"/>
@@ -27,16 +27,21 @@ import { ProductService } from '@/services/ProductService'
 import { Product } from '@/models/Product'
 import OneProduct from '@/components/OneProduct.vue'
 
+let nbShow = 10
+let products: Product[] = []
+let bestProducts: Product[] = []
+
 export default {
   name: 'ShowProducts',
   components: {
     OneProduct
   },
   async setup () {
+    /** Vérification de la taille de l'écran */
     let mobile = false
     if (window.innerWidth < 900) mobile = true
 
-    const products: Product[] = await ProductService.getProducts()
+    products = await ProductService.getProducts()
 
     /** Liste des categories */
     const categories: string[] = []
@@ -45,8 +50,7 @@ export default {
     })
 
     /** Produit les mieux notés */
-    const bestProducts: Product[] = []
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < nbShow; i++) {
       bestProducts[i] = products.sort(function compare (a: Product, b: Product) {
         if (a.rating.rate > b.rating.rate) return -1
         if (a.rating.rate < b.rating.rate) return 1
@@ -58,7 +62,25 @@ export default {
       products,
       categories,
       bestProducts,
-      mobile
+      mobile,
+      nbShow
+    }
+  },
+  methods: {
+    onNbShowChange (event: InputEvent) {
+      if (event.target) nbShow = event.target.value
+      bestProducts = []
+      for (let i = 0; i < nbShow; i++) {
+        bestProducts[i] = products.sort(function compare (a: Product, b: Product) {
+          if (a.rating.rate > b.rating.rate) return -1
+          if (a.rating.rate < b.rating.rate) return 1
+          return 0
+        })[i]
+      }
+      console.log(bestProducts)
+      return {
+        bestProducts
+      }
     }
   }
 }
@@ -67,17 +89,31 @@ export default {
 <style lang="sass" scoped>
 .container
   width: 100%
-.cateories
+  user-select: none
+.categories
   width: 100%
   .title
+    margin: 25px 5% 5px 5%
     font-size: 20px
     font-weight: 700
+    input
+      background: none
+      border-style: none
+      width: 40px
+      color: #fff
+      font-size: 20px
+      font-weight: 700
+      text-align: center
+      transition: 200ms
+      &:hover, &:focus
+        margin-right: 0
+
   .products
     display: flex
     overflow-y: hidden
     overflow-x: auto
     box-sizing: border-box
-    padding: 50px 15px 25px 15px
+    padding: 50px calc(5% + 15px) 25px calc(5% + 15px)
     margin-top: -50px
     div
       display: flex
@@ -102,4 +138,8 @@ export default {
       border-radius: 12px
       &:hover
         background-color: #ddd
+  .categories
+    .title
+      input
+        margin-right: -15px
 </style>

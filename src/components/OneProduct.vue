@@ -74,7 +74,6 @@ export default {
   transition: 500ms
   border-radius: 15px
   cursor: pointer
-  user-select: none
   &:hover
     transform: scale(1.1)
     box-shadow: #000a 0 10px 40px 15px, #000c 0 10px 10px -10px

@@ -54,7 +54,7 @@ body::-webkit-scrollbar-thumb:hover {
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 8% 5%;
+  padding: 8% 0%;
   padding-top: 2%;
   box-sizing: border-box;
 }
