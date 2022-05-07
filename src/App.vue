@@ -49,7 +49,7 @@ body::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(90deg, #080A12, #2C3041, #080A12);
 
   width: 100%;
-  min-height: 100%;
+  min-height: 100vh;
 
   display: flex;
   justify-content: center;

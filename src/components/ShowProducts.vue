@@ -1,11 +1,21 @@
 <template>
   <div class="container">
+    <div class="cateories">
+      <p class="title">top rated :</p>
+      <div class="products">
+        <div v-for="p in bestProducts" :key="p.id">
+          <OneProduct v-bind:product="p"/>
+          <div class="price">{{ p.price }} $</div>
+        </div>
+      </div>
+    </div>
+
     <div class="cateories" v-for="(c, index) in categories" :key="index">
       <p class="title">{{ c.toUpperCase() }} :</p>
       <div class="products">
         <div v-for="p in products" :key="p.id">
           <OneProduct v-if="c == p.category" v-bind:product="p"/>
-          <div class="price" v-if="c == p.category" v-bind:product="p">{{ p.price }} $</div>
+          <div class="price" v-if="c == p.category">{{ p.price }} $</div>
         </div>
       </div>
     </div>
@@ -34,9 +44,20 @@ export default {
       if (!categories.includes(p.category)) categories.push(p.category)
     })
 
+    /** Produit les mieux notés */
+    const bestProducts: Product[] = []
+    for (let i = 0; i < 5; i++) {
+      bestProducts[i] = products.sort(function compare (a: Product, b: Product) {
+        if (a.rating.rate > b.rating.rate) return -1
+        if (a.rating.rate < b.rating.rate) return 1
+        return 0
+      })[i]
+    }
+
     return {
       products,
       categories,
+      bestProducts,
       mobile
     }
   }
@@ -68,6 +89,7 @@ export default {
         font-size: 17.5px
         font-weight: 550
 
+/** Pour mobile */
 @media (min-width: 900px)
   .products
     &::-webkit-scrollbar-track
