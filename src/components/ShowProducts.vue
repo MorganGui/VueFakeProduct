@@ -4,17 +4,17 @@
       <div class="title">TOP 10 RATINGS :</div>
       <div class="products">
         <div v-for="p in bestProducts" :key="p.id">
-          <OneProduct v-bind:product="p"/>
+          <OneProduct v-bind:product="p" v-bind:cat="'all'"/>
           <div class="price">{{ p.price }} $</div>
         </div>
       </div>
     </div>
 
-    <div class="categories" v-for="(c, index) in categories" :key="index">
+    <div class="categories" v-for="c in categories" :key="c">
       <div class="title">{{ c.toUpperCase() }} :</div>
       <div class="products">
         <div v-for="p in products" :key="p.id">
-          <OneProduct v-if="c == p.category" v-bind:product="p"/>
+          <OneProduct v-if="c == p.category" v-bind:product="p"  v-bind:cat="c"/>
           <div class="price" v-if="c == p.category">{{ p.price }} $</div>
         </div>
       </div>
