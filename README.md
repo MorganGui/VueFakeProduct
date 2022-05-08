@@ -4,6 +4,7 @@
 #### Il s'agit d'une page présentant des produits récupérés depuis une API.
 #### L'image et le prix de chaque produit sont directement affichés.
 #### Les produits sont triés par catégorie mais les produit les mieux notés sont réaffichés au-dessus.
+#### J'ai découvert Vue JS le 05/05/2022.
 
 ## Ressources externes
 Pour ce projet j'ai utilisé une API de Fake Store API :
