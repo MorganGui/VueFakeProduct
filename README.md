@@ -24,6 +24,3 @@ vue create [project-name]
 cd [project-name]
 npm run serve
 ```
-## Branches.
-"master" is the most stable branch
-"updateDOM" is stable, but some of the code does not work. The search functions allow to modify the displayed lists but the DOM is not updated
