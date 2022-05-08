@@ -47,14 +47,16 @@ body::-webkit-scrollbar-thumb:hover {
   color: #fff;
   /* background: radial-gradient(#080A12, #2C3041); */
   background: linear-gradient(90deg, #080A12, #2C3041, #080A12);
+  user-select: none;
 
   width: 100%;
   min-height: 100vh;
 
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 8% 0%;
+  padding: 5% 0%;
   padding-top: 2%;
   box-sizing: border-box;
 }

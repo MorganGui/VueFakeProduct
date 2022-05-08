@@ -1,22 +1,20 @@
 <template>
-  <div class="container">
-    <div class="categories">
-      <div class="title">TOP <input type="number" id="txtNbShow" v-model="nbShow" v-on:change="onSearchChange()"> RATINGS : <input type="text" id="txtSearch" placeholder="rechercher" v-model="txtSearch" v-on:change="onSearchChange()"></div>
-      <div class="products">
-        <div v-for="p in topProducts" :key="p.id">
-          <OneProduct v-bind:product="p" v-bind:cat="'all'"/>
-          <div class="price">{{ p.price }} $</div>
-        </div>
+  <div class="categories">
+    <div class="title">TOP <input type="number" id="txtNbShow" v-model="nbShow" v-on:change="onSearchChange()"> RATINGS : <input type="text" id="txtSearch" placeholder="rechercher" v-model="txtSearch" v-on:change="onSearchChange()"></div>
+    <div class="products">
+      <div v-for="p in topProducts" :key="p.id">
+        <OneProduct :product="p" :cat="'all'"/>
+        <div class="price">{{ p.price }} $</div>
       </div>
     </div>
+  </div>
 
-    <div class="categories" v-for="c in categories" :key="c">
-      <div class="title">{{ c.toUpperCase() }} :</div>
-      <div class="products">
-        <div v-for="p in products" :key="p.id">
-          <OneProduct v-if="c == p.category" v-bind:product="p"  v-bind:cat="c"/>
-          <div class="price" v-if="c == p.category">{{ p.price }} $</div>
-        </div>
+  <div class="categories" v-for="c in categories" :key="c">
+    <div class="title">{{ c.toUpperCase() }} :</div>
+    <div class="products">
+      <div v-for="p in products" :key="p.id">
+        <OneProduct v-if="c == p.category" :product="p"  :cat="c"/>
+        <div class="price" v-if="c == p.category">{{ p.price }} $</div>
       </div>
     </div>
   </div>
@@ -88,9 +86,6 @@ export default {
 </script>
 
 <style lang="sass" scoped>
-.container
-  width: 100%
-  user-select: none
 .categories
   width: 100%
   .title
@@ -131,7 +126,20 @@ export default {
         font-weight: 550
 
 /** Pour mobile */
-@media (min-width: 900px)
+@media (max-width: 900px)
+  .categories .title
+    font-size: 18px
+    input
+      font-size: 18px
+    input:nth-child(1)
+      width: 25px
+    input:nth-child(2)
+      width: calc(100vw - 200px)
+      max-width: 200px
+      margin-left: 0px
+      margin-right: -20px
+/** Pour PC */
+@media (min-width: 901px)
   .products
     &::-webkit-scrollbar-track
       background: #000
@@ -143,8 +151,6 @@ export default {
       border-radius: 12px
       &:hover
         background-color: #ddd
-  .categories
-    .title
-      input
+  .categories .title input
         margin-right: -15px
 </style>

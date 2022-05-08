@@ -1,8 +1,8 @@
 <template>
-  <input type="checkbox" :id="productDomId" class="cboProduct">
+  <input type="checkbox" :id="productDomId" class="cboProduct" v-if="!mobile">
   <label :for="productDomId">
 
-    <div class="desc">
+    <div class="desc" v-if="!mobile">
       <div>{{ filter(product.description, 250, 250) }}</div>
       <a href="#">more information</a>
     </div>
@@ -41,6 +41,10 @@ export default {
   },
   /** Calcul des nombres d'étoiles pleine, vide et à moitié pleine */
   setup (props:any) {
+    /** Vérification de la taille de l'écran */
+    let mobile = false
+    if (window.innerWidth < 900) mobile = true
+
     function getProduct () {
       return props.product
     }
@@ -59,10 +63,12 @@ export default {
       fullStar,
       halfStar,
       emptyStar,
-      productDomId
+      productDomId,
+      mobile
     }
   },
   methods: {
+    /** La méthode "filter" permet de couper les textes trop longs et d'ajouter des points de suspension à la fin. */
     filter (text: string, length: number, lengthMobile: number) {
       if (window.innerWidth < 900 && text.length > lengthMobile) return text.slice(0, lengthMobile) + '...'
       else if (text.length > length) return text.slice(0, length) + '...'
@@ -155,16 +161,17 @@ export default {
     width: 370px
 .cboProduct
   display: none
-.cboProduct:checked ~ label
-  > .desc
-    padding-left: 230px
-    width: 600px
-  > .product
-    margin-right: 420px
-    transform: scale(1.1)
-    box-shadow: #000a 0 10px 40px 15px, #000c 0 10px 10px -10px
-    .filter
-      opacity: 1
+@media (min-width: 900px)
+  .cboProduct:checked ~ label
+    > .desc
+      padding-left: 230px
+      width: 600px
+    > .product
+      margin-right: 420px
+      transform: scale(1.1)
+      box-shadow: #000a 0 10px 40px 15px, #000c 0 10px 10px -10px
+      .filter
+        opacity: 1
 
 @media (max-width: 900px)
   .product
