@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="categories">
-      <div class="title">TOP 10 RATINGS :</div>
+      <div class="title">TOP <input type="number" v-model="nbShow" v-on:change="onNbShowChange($event)"> RATINGS :</div>
       <div class="products">
         <div v-for="p in bestProducts" :key="p.id">
           <OneProduct v-bind:product="p"/>
@@ -27,9 +27,9 @@ import { ProductService } from '@/services/ProductService'
 import { Product } from '@/models/Product'
 import OneProduct from '@/components/OneProduct.vue'
 
-const nbShow = 10
+let nbShow = 10
 let products: Product[] = []
-const bestProducts: Product[] = []
+let bestProducts: Product[] = []
 
 export default {
   name: 'ShowProducts',
@@ -65,6 +65,23 @@ export default {
       mobile,
       nbShow
     }
+  },
+  methods: {
+    onNbShowChange (event: InputEvent) {
+      if (event.target) nbShow = event.target.value
+      bestProducts = []
+      for (let i = 0; i < nbShow; i++) {
+        bestProducts[i] = products.sort(function compare (a: Product, b: Product) {
+          if (a.rating.rate > b.rating.rate) return -1
+          if (a.rating.rate < b.rating.rate) return 1
+          return 0
+        })[i]
+      }
+      console.log(bestProducts)
+      return {
+        bestProducts
+      }
+    }
   }
 }
 </script>
@@ -79,6 +96,17 @@ export default {
     margin: 25px 5% 5px 5%
     font-size: 20px
     font-weight: 700
+    input
+      background: none
+      border-style: none
+      width: 40px
+      color: #fff
+      font-size: 20px
+      font-weight: 700
+      text-align: center
+      transition: 200ms
+      &:hover, &:focus
+        margin-right: 0
 
   .products
     display: flex
@@ -110,4 +138,8 @@ export default {
       border-radius: 12px
       &:hover
         background-color: #ddd
+  .categories
+    .title
+      input
+        margin-right: -15px
 </style>
