@@ -21,6 +21,10 @@ export class ProductService {
     })
 
     // envoie des données
-    return products
+    return products.sort(function compare (a: Product, b: Product) {
+      if (a.rating.rate > b.rating.rate) return -1
+      if (a.rating.rate < b.rating.rate) return 1
+      return 0
+    })
   }
 }

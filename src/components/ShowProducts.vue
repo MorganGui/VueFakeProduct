@@ -1,9 +1,9 @@
 <template>
   <div class="container">
     <div class="categories">
-      <div class="title">TOP <input type="number" v-model="nbShow" v-on:change="onNbShowChange($event)"> RATINGS :</div>
+      <div class="title">TOP <input type="number" id="txtNbShow" v-model="nbShow" v-on:change="onSearchChange()"> RATINGS : <input type="text" id="txtSearch" placeholder="rechercher" v-model="txtSearch" v-on:change="onSearchChange()"></div>
       <div class="products">
-        <div v-for="p in bestProducts" :key="p.id">
+        <div v-for="p in topProducts" :key="p.id">
           <OneProduct v-bind:product="p" v-bind:cat="'all'"/>
           <div class="price">{{ p.price }} $</div>
         </div>
@@ -29,7 +29,8 @@ import OneProduct from '@/components/OneProduct.vue'
 
 let nbShow = 10
 let products: Product[] = []
-let bestProducts: Product[] = []
+let topProducts: Product[] = []
+let txtSearch = 'Mens'
 
 export default {
   name: 'ShowProducts',
@@ -44,42 +45,42 @@ export default {
     products = await ProductService.getProducts()
 
     /** Liste des categories */
+    /** Produit affiché en haut */
     const categories: string[] = []
+    const tmpProducts: Product[] = []
     products.forEach((p: Product) => {
       if (!categories.includes(p.category)) categories.push(p.category)
+      if (p.title.toLowerCase().includes(txtSearch.toLowerCase())) tmpProducts.push(p)
     })
 
-    /** Produit les mieux notés */
     for (let i = 0; i < nbShow; i++) {
-      bestProducts[i] = products.sort(function compare (a: Product, b: Product) {
-        if (a.rating.rate > b.rating.rate) return -1
-        if (a.rating.rate < b.rating.rate) return 1
-        return 0
-      })[i]
+      if (tmpProducts.length > i) topProducts[i] = tmpProducts[i]
     }
 
     return {
       products,
       categories,
-      bestProducts,
+      topProducts,
       mobile,
-      nbShow
+      nbShow,
+      txtSearch
     }
   },
   methods: {
-    onNbShowChange (event: InputEvent) {
-      if (event.target) nbShow = event.target.value
-      bestProducts = []
+    onSearchChange () {
+      nbShow = +(document.getElementById('txtNbShow') as HTMLInputElement).value
+      txtSearch = (document.getElementById('txtSearch') as HTMLInputElement).value
+      topProducts = []
+      const tmpProducts: Product[] = []
+      products.forEach((p: Product) => {
+        if (p.title.toLowerCase().includes(txtSearch.toLowerCase())) tmpProducts.push(p)
+      })
       for (let i = 0; i < nbShow; i++) {
-        bestProducts[i] = products.sort(function compare (a: Product, b: Product) {
-          if (a.rating.rate > b.rating.rate) return -1
-          if (a.rating.rate < b.rating.rate) return 1
-          return 0
-        })[i]
+        if (tmpProducts.length > i - 1) topProducts[i] = tmpProducts[i]
       }
-      console.log(bestProducts)
+      console.log(topProducts)
       return {
-        bestProducts
+        topProducts
       }
     }
   }
@@ -99,7 +100,6 @@ export default {
     input
       background: none
       border-style: none
-      width: 40px
       color: #fff
       font-size: 20px
       font-weight: 700
@@ -107,6 +107,11 @@ export default {
       transition: 200ms
       &:hover, &:focus
         margin-right: 0
+      &:nth-child(1)
+        width: 40px
+      &:nth-child(2)
+        width: 150px
+        margin-left: 5px
 
   .products
     display: flex
