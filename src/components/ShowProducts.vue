@@ -79,17 +79,6 @@ export default {
     margin: 25px 5% 5px 5%
     font-size: 20px
     font-weight: 700
-    // input
-    //   background: none
-    //   border-style: none
-    //   width: 40px
-    //   color: #fff
-    //   font-size: 20px
-    //   font-weight: 700
-    //   text-align: center
-    //   transition: 200ms
-    //   &:hover, &:focus
-    //     margin-right: 0
 
   .products
     display: flex
